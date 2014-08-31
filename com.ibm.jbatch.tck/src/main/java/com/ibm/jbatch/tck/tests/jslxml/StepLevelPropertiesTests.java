@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,7 @@ public class StepLevelPropertiesTests {
 	 * @testName: testStepLevelPropertiesCount
 	 * @assertion: Section 5.2.3 Step Level Properties
 	 * @test_Strategy: set a list of properties to the step should add them to the step context properties
-	 * 
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -55,18 +55,18 @@ public class StepLevelPropertiesTests {
 
 		String METHOD = "testStepLevelPropertiesCount";
 		String SHOULD_BE_UNAVAILABLE_PROP_PREFIX = "com.ibm.jbatch.tck.tests.jslxml.StepLevelPropertiesTests";
-		
+
 		Properties jobParams = new Properties();
 		jobParams.put(SHOULD_BE_UNAVAILABLE_PROP_PREFIX + ".parm1", "should.not.appear.in.step.context.properties");
-		
+
 		try {
 
 			Reporter.log("starting job");
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("step_level_properties_count");
 
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
-			assertWithMessage("Job completed", "VERY GOOD INVOCATION", jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", "VERY GOOD INVOCATION", jobExec.getExitStatus());
 			Reporter.log("job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -76,8 +76,8 @@ public class StepLevelPropertiesTests {
 	/**
 	 * @testName: testStepLevelPropertiesPropertyValue
 	 * @assertion: Section 5.2.3 Step Level Properties
-	 * @test_Strategy: set a step property value should equal value set on step context property 
-	 * 
+	 * @test_Strategy: set a step property value should equal value set on step context property
+	 *
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -93,10 +93,10 @@ public class StepLevelPropertiesTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("step_level_properties_value");
 
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
-			assertWithMessage("Job completed",BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed",BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
 
-			assertWithMessage("Property value", FOO_VALUE, jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Property value", FOO_VALUE, jobExec.getExitStatus());
 
 			Reporter.log("Job batchlet return code is the step property foo value " + FOO_VALUE);
 		} catch (Exception e) {
@@ -107,8 +107,8 @@ public class StepLevelPropertiesTests {
 	/**
 	 * @testName: testStepLevelPropertiesShouldNotBeAvailableThroughJobContext
 	 * @assertion: Section 5.2.3 Step Level Properties
-	 * @test_Strategy: set a step property value should not be available to job context 
-	 * 
+	 * @test_Strategy: set a step property value should not be available to job context
+	 *
 	 * @throws InterruptedException
 	 */
 	@Test @org.junit.Test
@@ -122,9 +122,9 @@ public class StepLevelPropertiesTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("step_level_properties_scope");
 
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
-			assertWithMessage("Step Level Property is not available through job context",BatchStatus.COMPLETED.name(), jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Step Level Property is not available through job context",BatchStatus.COMPLETED.name(), jobExec.getExitStatus());
 			Reporter.log("Job batchlet return code is the step.property read through job context (expected value=COMPLETED) " + jobExec.getExitStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -150,7 +150,7 @@ public class StepLevelPropertiesTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 

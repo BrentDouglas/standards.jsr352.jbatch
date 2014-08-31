@@ -1,13 +1,13 @@
 /*
  * Copyright 2013 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,10 +39,10 @@ public class ContextsGetIdTests {
 	 * @testName: testJobContextGetId
 	 * @assertion: Section 7.7.2 JobContext
 	 * @test_Strategy: 1. setup a simple job with one step
-	 * 				   2. start job  
+	 * 				   2. start job
 	 * 				   3. set job exit status equals job id from JobContext in batchlet
 	 * 				   4. compare job id 'job1' to job exit status
-	 * 
+	 *
 	 * 	<job id="job1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 	 * 		<step id="step1">
 	 *			<batchlet ref="contextsGetIdJobContextTestBatchlet"/>
@@ -65,8 +65,8 @@ public class ContextsGetIdTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("contexts_getid_jobcontext", null);
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
-			assertWithMessage("job id equals job1", jobId, jobExec.getExitStatus());
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "job id equals job1", jobId, jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -77,10 +77,10 @@ public class ContextsGetIdTests {
 	 * @testName: testStepContextGetId
 	 * @assertion: Section 7.7.2 StepContext
 	 * @test_Strategy: 1. setup a simple job with one step
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. set job exit status equals step id from StepContext in batchlet
 	 * 				   4. compare step id 'step1' to job exit status
-	 * 
+	 *
 	 * 	<job id="job1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 	 * 		<step id="step1">
 	 *			<batchlet ref="contextsGetIdStepContextTestBatchlet"/>
@@ -102,9 +102,9 @@ public class ContextsGetIdTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("contexts_getid_stepcontext", null);
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
-			assertWithMessage("job id equals job1", stepId, jobExec.getExitStatus());
+			assertWithMessage(jobExec, "job id equals job1", stepId, jobExec.getExitStatus());
 
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -130,14 +130,14 @@ public class ContextsGetIdTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
 	@BeforeTest
 	@Before
 	public void beforeTest() throws ClassNotFoundException {
-		jobOp = new JobOperatorBridge(); 
+		jobOp = new JobOperatorBridge();
 	}
 
 	@AfterTest

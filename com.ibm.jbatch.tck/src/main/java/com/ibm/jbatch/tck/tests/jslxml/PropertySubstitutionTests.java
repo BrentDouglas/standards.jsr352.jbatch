@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
  */
 package com.ibm.jbatch.tck.tests.jslxml;
 
-import static com.ibm.jbatch.tck.utils.AssertionUtils.assertObjEquals;
+import static com.ibm.jbatch.tck.utils.AssertionUtils.assertWithMessage;
 
 import java.io.File;
 import java.util.Properties;
@@ -63,10 +63,10 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testBatchArtifactPropertyInjection
-	 * 
+	 *
 	 * @assertion: Section 6.3.1, The @BatchProperty may be used on a class
 	 * field for any class identified as a batch programming model artifact
-	 * 
+	 *
 	 * @test_Strategy: Include a property element on a Batchlet artifact and
 	 * verify the java value of the String is set to the same value as in the
 	 * job xml.
@@ -87,7 +87,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("value1", result);
+			assertWithMessage(jobExec, "value1", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -96,10 +96,10 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testInitializedPropertyIsOverwritten
-	 * 
+	 *
 	 * @assertion: The java initialized value is overwritten with the required
 	 * injected value.
-	 * 
+	 *
 	 * @test_Strategy: Include a property element on a Batchlet artifact and
 	 * verify the java value of the String is set to the same value as in the
 	 * job xml even if the Java field is initialized.
@@ -121,7 +121,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("value2", result);
+			assertWithMessage(jobExec, "value2", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -129,10 +129,10 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testPropertyWithJobParameter
-	 * 
+	 *
 	 * @assertion: Job Parameters submitted on start are substituted in the job
 	 * XML using the following syntax, #{jobParameters['<property-name>']}
-	 * 
+	 *
 	 * @test_Strategy: Submit job parameters through JobOperator.start(String,
 	 * Properties) and verify that xml string is substituted correctly by
 	 * injecting the property into a batch artifact
@@ -160,7 +160,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals(expectedResult, result);
+			assertWithMessage(jobExec, expectedResult, result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -169,10 +169,10 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testDefaultPropertyName
-	 * 
+	 *
 	 * @assertion: If a name value is not supplied on the @BatchProperty
 	 * qualifier the property name defaults to the java field name.
-	 * 
+	 *
 	 * @test_Strategy: Supply an xml property element with the name matching the
 	 * Java field name and verify that the java field value injected matches the
 	 * value provided through the job xml
@@ -194,7 +194,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("value4", result);
+			assertWithMessage(jobExec, "value4", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -202,9 +202,9 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testGivenPropertyName
-	 * 
+	 *
 	 * @assertion: The name provided on the @BatchProperty annotation maps to the job xml name of the property element
-	 * 
+	 *
 	 * @test_Strategy: Supply an xml property element with the name matching the
 	 * @BatchProperty name and verify that the java field value injected matches the
 	 * value provided through the job xml.
@@ -226,7 +226,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("value4", result);
+			assertWithMessage(jobExec, "value4", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -234,10 +234,10 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testPropertyInnerScopePrecedence
-	 * 
-	 * @assertion: A batch artifacts properties overrides any parent properties defined in 
+	 *
+	 * @assertion: A batch artifacts properties overrides any parent properties defined in
 	 * an outer XML scope. Child properties always override parent properties with the same name.
-	 * 
+	 *
 	 * @test_Strategy: Issue a job with a step level property and batchlet property with the same name.
 	 * Verify that the injected property value is from the artifact level property.
 	 */
@@ -258,7 +258,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("batchletPropValue", result);
+			assertWithMessage(jobExec, "batchletPropValue", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -266,14 +266,14 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testPropertyQuestionMarkSimple
-	 * 
+	 *
 	 * @assertion: Section 5.7, The ?:...; syntax is honored for property
 	 * defaulting, if a property cannot be resolved.
-	 * 
+	 *
 	 * @test_Strategy: A jobParameter property is used in the XML which is never passed
-	 * in programmatically resulting in an unresolved property. The property then defaults 
-	 * to the default value expression which is verified through it's Java value in the 
-	 * batctlet artifact. 
+	 * in programmatically resulting in an unresolved property. The property then defaults
+	 * to the default value expression which is verified through it's Java value in the
+	 * batctlet artifact.
 	 */
 	@Test
 	@org.junit.Test
@@ -296,7 +296,7 @@ public class PropertySubstitutionTests {
 			// String result = jobExec.getStatus();
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("myfile1.txt", result);
+			assertWithMessage(jobExec, "myfile1.txt", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -304,14 +304,14 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testPropertyQuestionMarkComplex
-	 * 
-	 * @assertion: Section 5.7, Accord to the spec grammar multiple properties can each have their own default 
+	 *
+	 * @assertion: Section 5.7, Accord to the spec grammar multiple properties can each have their own default
 	 * values and also be concatenated with string literals.
-	 * 
+	 *
 	 * @test_Strategy: Two jobParameter properties are used in the XML which are never passed
-	 * in programmatically resulting in an unresolved property. The properties then default 
-	 * to the default value expression.  This is verified through the injected Java value in the 
-	 * batctlet artifact. 
+	 * in programmatically resulting in an unresolved property. The properties then default
+	 * to the default value expression.  This is verified through the injected Java value in the
+	 * batctlet artifact.
 	 */
 	@Test
 	@org.junit.Test
@@ -335,7 +335,7 @@ public class PropertySubstitutionTests {
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
 
-			assertObjEquals(File.separator + "myfile2.txt", result);
+			assertWithMessage(jobExec, File.separator + "myfile2.txt", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -343,12 +343,12 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testPropertyWithConcatenation
-	 * 
+	 *
 	 * @assertion: Section 5.7, Properties can be concatenated with string literals.
-	 * 
+	 *
 	 * @test_Strategy: Supply an xml property element with the name matching the
 	 * @BatchProperty name and verify that the java field value injected matches the
-	 * value provided through the job xml. 
+	 * value provided through the job xml.
 	 */
 	@Test
 	@org.junit.Test
@@ -372,7 +372,7 @@ public class PropertySubstitutionTests {
 
 			String result = System.getProperty("property.junit.result");
 			Reporter.log("Test result: " + result + "<p>");
-			assertObjEquals("testfile1.txt", result);
+			assertWithMessage(jobExec, "testfile1.txt", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -380,16 +380,16 @@ public class PropertySubstitutionTests {
 
 	/*
 	 * @testName: testJavaSystemProperty
-	 * 
-	 * @assertion: Section 5.7, Java system properties can be substituted in the XML using 
-	 * the following systax#{systemProperties['some.property']}, and properties can be 
+	 *
+	 * @assertion: Section 5.7, Java system properties can be substituted in the XML using
+	 * the following systax#{systemProperties['some.property']}, and properties can be
 	 * concatenated.
-	 * 
+	 *
 	 * @test_Strategy: Supply an xml property element with the name matching the
 	 * @BatchProperty name and verify that the java field value injected matches the
 	 * value provided through the job xml. The "file.separator" system property is used
 	 * in this test.
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -415,7 +415,7 @@ public class PropertySubstitutionTests {
 			String pathSep = System.getProperty("file.separator");
 
 			Reporter.log("Test result: " + pathSep + "test" + pathSep + "testfile2.txt<p>");
-			assertObjEquals(pathSep + "test" + pathSep + "testfile2.txt", result);
+			assertWithMessage(jobExec, pathSep + "test" + pathSep + "testfile2.txt", result);
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}

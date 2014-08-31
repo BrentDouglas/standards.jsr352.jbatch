@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
  */
 package com.ibm.jbatch.tck.tests.jslxml;
 
-import static com.ibm.jbatch.tck.utils.AssertionUtils.assertObjEquals;
+import static com.ibm.jbatch.tck.utils.AssertionUtils.assertWithMessage;
 
 
 import java.util.Properties;
@@ -44,7 +44,7 @@ public class ExecutionTests {
 		String METHOD = "setup";
 
 		try {
-			jobOp = new JobOperatorBridge();  
+			jobOp = new JobOperatorBridge();
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -70,7 +70,7 @@ public class ExecutionTests {
 	 * @test_Strategy: FIXME
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobWithOneBatchletStep() throws Exception {
 		String METHOD = "testInvokeJobWithOneBatchletStep";
 		begin(METHOD);
@@ -82,7 +82,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_batchlet_1step");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -106,7 +106,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_batchlet_2steps");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -130,7 +130,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_batchlet_4steps");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -142,7 +142,7 @@ public class ExecutionTests {
 	 * @test_Strategy: FIXME
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobWithNextElement() throws Exception {
 		String METHOD = "testInvokeJobWithNextElement";
 		begin(METHOD);
@@ -154,7 +154,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_batchlet_nextElement");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -166,7 +166,7 @@ public class ExecutionTests {
 	 * @test_Strategy: FIXME
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobWithFailElement() throws Exception {
 		String METHOD = "testInvokeJobWithFailElement";
 		begin(METHOD);
@@ -179,8 +179,8 @@ public class ExecutionTests {
 
 			Reporter.log("execution #1 JobExecution getExitStatus()="+jobExec.getExitStatus()+"<p>");
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals("TEST_FAIL", jobExec.getExitStatus());
-			assertObjEquals(BatchStatus.FAILED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "TEST_FAIL", jobExec.getExitStatus());
+			assertWithMessage(jobExec, BatchStatus.FAILED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -192,7 +192,7 @@ public class ExecutionTests {
 	 * @test_Strategy: FIXME
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobWithStopElement() throws Exception {
 		String METHOD = "testInvokeJobWithStopElement";
 		begin(METHOD);
@@ -204,7 +204,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_batchlet_stopElement");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.STOPPED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.STOPPED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -216,7 +216,7 @@ public class ExecutionTests {
 	 * @test_Strategy: FIXME
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobWithEndElement() throws Exception {
 		String METHOD = "testInvokeJobWithEndElement";
 		begin(METHOD);
@@ -229,8 +229,8 @@ public class ExecutionTests {
 
 			Reporter.log("execution #1 JobExecution getExitStatus()="+jobExec.getExitStatus()+"<p>");
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals("TEST_ENDED", jobExec.getExitStatus());
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "TEST_ENDED", jobExec.getExitStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -254,7 +254,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_chunk_simple");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -279,7 +279,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_chunk_full_attributes");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -292,7 +292,7 @@ public class ExecutionTests {
 	 * 	and archive loading are unable to find the specified artifact.
 	 */
 	@Test
-	@org.junit.Test  
+	@org.junit.Test
 	public void testInvokeJobUsingTCCL() throws Exception {
 		String METHOD = "testInvokeJobUsingTCCL";
 		begin(METHOD);
@@ -304,7 +304,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("test_artifact_load_classloader");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -328,7 +328,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_chunk_checkpoint");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -352,7 +352,7 @@ public class ExecutionTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("job_flow_batchlet_4steps");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,9 +42,9 @@ public class JobExecutableSequenceTests {
 	 * @testName: testJobExecutableSequenceToUnknown
 	 * @assertion: Section 5.3 Flow
 	 * @test_Strategy: 1. setup a job consisting of 3 steps (step1 next to step2, step2 next to unknown, step3 unreachable
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. job should fail because it shouldn't be able to transition to unknown
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -68,11 +68,11 @@ public class JobExecutableSequenceTests {
 				seenException = true;
 			}
 			// If we caught an exception we'd expect that a JobExecution would not have been created,
-			// though we won't validate that it wasn't created.  
+			// though we won't validate that it wasn't created.
 			// If we didn't catch an exception that we require that the implementation fail the job execution.
 			if (!seenException) {
 				Reporter.log("Didn't catch JobStartException, Job Batch Status = " + jobExec.getBatchStatus());
-				assertWithMessage("Job should have failed because of out of scope execution elements.", BatchStatus.FAILED, jobExec.getBatchStatus());
+				assertWithMessage(jobExec, "Job should have failed because of out of scope execution elements.", BatchStatus.FAILED, jobExec.getBatchStatus());
 			}
 			Reporter.log("job failed");
 		} catch (Exception e) {
@@ -99,14 +99,14 @@ public class JobExecutableSequenceTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
 	@BeforeTest
 	@Before
 	public void beforeTest() throws ClassNotFoundException {
-		jobOp = new JobOperatorBridge(); 
+		jobOp = new JobOperatorBridge();
 	}
 
 	@AfterTest

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,12 +42,12 @@ public class FlowTransitioningTests {
 	 * @testName: testFlowTransitionToStep
 	 * @assertion: Section 5.3 Flow
 	 * @test_Strategy: 1. setup a job consisting of one flow (w/ 3 steps) and one step
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. create a list of step id's as they are processed
 	 * 				   4. return the list from step 3 as job exit status
 	 * 				   5. compare that list to our transition list
 	 * 		           6. verify that in fact we transition from each step within the flow, then to the flow "next" step
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -66,12 +66,12 @@ public class FlowTransitioningTests {
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
 			String[] jobTransitionList = jobExec.getExitStatus().split(",");
-			assertWithMessage("transitioned to exact number of steps", transitionList.length, jobTransitionList.length);
+			assertWithMessage(jobExec, "transitioned to exact number of steps", transitionList.length, jobTransitionList.length);
 			for (int i = 0; i < jobTransitionList.length; i++) {
-				assertWithMessage("Flow transitions", transitionList[i], jobTransitionList[i].trim());
+				assertWithMessage(jobExec, "Flow transitions", transitionList[i], jobTransitionList[i].trim());
 			}
 
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("Job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -82,11 +82,11 @@ public class FlowTransitioningTests {
 	 * @testName: testFlowTransitionToStepOutOfScope
 	 * @assertion: Section 5.3 Flow
 	 * @test_Strategy: 1. setup a job consisting of one flow (w/ 3 steps) and one step
-	 * 				   2. start job 
-	 * 				   3. this job should fail because the flow step flow1step2 next to outside the flow 
+	 * 				   2. start job
+	 * 				   3. this job should fail because the flow step flow1step2 next to outside the flow
 	 *                   (Alternatively, the implementation may choose to validate and prevent this from starting,
 	 *                   by throwing a JobStartException).
-	 * 
+	 *
 	 * 	<flow id="flow1">
 	 *		<step id="flow1step1" next="flow1step2">
 	 *			<batchlet ref="flowTransitionToStepTestBatchlet"/>
@@ -126,12 +126,12 @@ public class FlowTransitioningTests {
 			}
 
 			// If we caught an exception we'd expect that a JobExecution would not have been created,
-			// though we won't validate that it wasn't created.  
+			// though we won't validate that it wasn't created.
 
 			// If we didn't catch an exception that we require that the implementation fail the job execution.
 			if (!seenException) {
 				Reporter.log("Didn't catch JobStartException, Job Batch Status = " + jobExec.getBatchStatus());
-				assertWithMessage("Job should have failed because of out of scope execution elements.", 
+				assertWithMessage(jobExec, "Job should have failed because of out of scope execution elements.",
 						BatchStatus.FAILED, jobExec.getBatchStatus());
 			}
 		} catch (Exception e) {
@@ -143,10 +143,10 @@ public class FlowTransitioningTests {
 	 * @testName: testFlowTransitionToDecision
 	 * @assertion: Section 5.3 Flow
 	 * @test_Strategy: 1. setup a job consisting of one flow (w/ 3 steps) and one decision
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. flow will transition to decider which will change the exit status
 	 * 				   4. compare that the exit status set by the decider matches that of the job
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -169,8 +169,8 @@ public class FlowTransitioningTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("flow_transition_to_decision", null);
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
-			assertWithMessage("Job Exit Status is from decider", exitStatus, jobExec.getExitStatus());
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job Exit Status is from decider", exitStatus, jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("Job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -181,13 +181,13 @@ public class FlowTransitioningTests {
 	 * @testName: testFlowTransitionWithinFlow
 	 * @assertion: Section 5.3 Flow
 	 * @test_Strategy: 1. setup a job consisting of one flow (w/ 3 steps and 1 decision)
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. within the flow step1 will transition to decider then to step2 and finally step3.
 	 * 				   4. create a list of step id's as they are processed
 	 * 				   4. return the list from step 3 as job exit status
 	 * 				   5. compare that list to our transition list
 	 * 		           6. verify that in fact we transition from each step within the flow, then to the flow "next" step
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -205,12 +205,12 @@ public class FlowTransitioningTests {
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
 			String[] jobTransitionList = jobExec.getExitStatus().split(",");
-			assertWithMessage("transitioned to exact number of steps", transitionList.length, jobTransitionList.length);
+			assertWithMessage(jobExec, "transitioned to exact number of steps", transitionList.length, jobTransitionList.length);
 			for (int i = 0; i < jobTransitionList.length; i++) {
-				assertWithMessage("Flow transitions", transitionList[i], jobTransitionList[i].trim());
+				assertWithMessage(jobExec, "Flow transitions", transitionList[i], jobTransitionList[i].trim());
 			}
 
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("Job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -236,14 +236,14 @@ public class FlowTransitioningTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
 	@BeforeTest
 	@Before
 	public void beforeTest() throws ClassNotFoundException {
-		jobOp = new JobOperatorBridge(); 
+		jobOp = new JobOperatorBridge();
 	}
 
 	@AfterTest

@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
  */
 package com.ibm.jbatch.tck.tests.jslxml;
 
-import static com.ibm.jbatch.tck.utils.AssertionUtils.assertObjEquals;
 import static com.ibm.jbatch.tck.utils.AssertionUtils.assertWithMessage;
 
 import java.util.Properties;
@@ -83,30 +82,30 @@ public class StopOrFailOnExitStatusWithRestartTests {
 			Reporter.log("Invoke startJobWithoutWaitingForResult for execution #1<p>");
 			TCKJobExecutionWrapper execution1 = jobOp.startJobWithoutWaitingForResult("job_batchlet_longrunning", overrideJobParams);
 
-			long execID = execution1.getExecutionId(); 
+			long execID = execution1.getExecutionId();
 			Reporter.log("StopRestart: Started job with execId=" + execID + "<p>");
 
 			int sleepTime = Integer.parseInt(System.getProperty("StopOrFailOnExitStatusWithRestartTests.testInvokeJobWithUserStop.sleep",DEFAULT_SLEEP_TIME));
 			Reporter.log("Sleep " +  sleepTime  + "<p>");
-			Thread.sleep(sleepTime); 
+			Thread.sleep(sleepTime);
 
 			BatchStatus exec1BatchStatus = execution1.getBatchStatus();
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+ exec1BatchStatus + "<p>");
-			
-			// Bug 5614 - Tolerate STARTING state in addition to STARTED 
+
+			// Bug 5614 - Tolerate STARTING state in addition to STARTED
 			boolean startedOrStarting = exec1BatchStatus == BatchStatus.STARTED || exec1BatchStatus == BatchStatus.STARTING;
-			assertWithMessage("Found BatchStatus of " + exec1BatchStatus.toString() + "; Hopefully job isn't finished already, if it is fail the test and use a longer sleep time within the batch step-related artifact.", startedOrStarting);
+			assertWithMessage(execution1, "Found BatchStatus of " + exec1BatchStatus.toString() + "; Hopefully job isn't finished already, if it is fail the test and use a longer sleep time within the batch step-related artifact.", startedOrStarting);
 
 			Reporter.log("Invoke stopJobAndWaitForResult");
 			jobOp.stopJobAndWaitForResult(execution1);
 
 			JobExecution postStopJobExecution = jobOp.getJobExecution(execution1.getExecutionId());
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+postStopJobExecution.getBatchStatus()+"<p>");
-			assertWithMessage("The stop should have taken effect by now, even though the batchlet artifact had control at the time of the stop, it should have returned control by now.", 
-					BatchStatus.STOPPED, postStopJobExecution.getBatchStatus());  
+			assertWithMessage(postStopJobExecution, "The stop should have taken effect by now, even though the batchlet artifact had control at the time of the stop, it should have returned control by now.",
+					BatchStatus.STOPPED, postStopJobExecution.getBatchStatus());
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+postStopJobExecution.getExitStatus()+"<p>");
-			assertWithMessage("If this assert fails with an exit status of STOPPED, try increasing the sleep time. It's possible" +
+			assertWithMessage(postStopJobExecution, "If this assert fails with an exit status of STOPPED, try increasing the sleep time. It's possible" +
 					"the JobOperator stop is being issued before the Batchlet has a chance to run.", "BATCHLET CANCELED BEFORE COMPLETION", postStopJobExecution.getExitStatus());
 
 			Reporter.log("Create job parameters for execution #2:<p>");
@@ -118,12 +117,12 @@ public class StopOrFailOnExitStatusWithRestartTests {
 			JobExecution execution2 = jobOp.restartJobAndWaitForResult(execution1.getExecutionId(),overrideJobParams);
 
 			Reporter.log("execution #2 JobExecution getBatchStatus()="+execution2.getBatchStatus()+"<p>");
-			assertWithMessage("If the restarted job hasn't completed yet then try increasing the sleep time.", 
+			assertWithMessage(execution2, "If the restarted job hasn't completed yet then try increasing the sleep time.",
 					BatchStatus.COMPLETED, execution2.getBatchStatus());
 
 			Reporter.log("execution #2 JobExecution getExitStatus()="+execution2.getExitStatus()+"<p>");
-			assertWithMessage("If this fails, the reason could be that step 1 didn't run the second time," + 
-					"though it should since it won't have completed successfully the first time.", 
+			assertWithMessage(execution2, "If this fails, the reason could be that step 1 didn't run the second time," +
+					"though it should since it won't have completed successfully the first time.",
 					"GOOD.STEP.GOOD.STEP", execution2.getExitStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -152,12 +151,12 @@ public class StopOrFailOnExitStatusWithRestartTests {
 			Reporter.log("Invoke startJobAndWaitForResult");
 			TCKJobExecutionWrapper firstJobExecution = jobOp.startJobAndWaitForResult("job_batchlet_longrunning", jobParameters);
 
-			Reporter.log("Started job with execId=" + firstJobExecution.getExecutionId()+"<p>");       
+			Reporter.log("Started job with execId=" + firstJobExecution.getExecutionId()+"<p>");
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="+firstJobExecution.getBatchStatus()+"<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()="+firstJobExecution.getExitStatus()+"<p>");
-			assertWithMessage("If the job hasn't failed yet then try increasing the sleep time.", BatchStatus.FAILED, firstJobExecution.getBatchStatus());    
-			assertObjEquals("FAILED", firstJobExecution.getExitStatus());
+			assertWithMessage(firstJobExecution, "If the job hasn't failed yet then try increasing the sleep time.", BatchStatus.FAILED, firstJobExecution.getBatchStatus());
+			assertWithMessage(firstJobExecution, "FAILED", firstJobExecution.getExitStatus());
 
 			Reporter.log("Create job parameters for execution #2:<p>");
 			Properties overrideJobParams = new Properties();
@@ -170,12 +169,12 @@ public class StopOrFailOnExitStatusWithRestartTests {
 			JobExecution secondJobExecution = jobOp.restartJobAndWaitForResult(firstJobExecution.getExecutionId(),overrideJobParams);
 
 			Reporter.log("execution #2 JobExecution getBatchStatus()="+secondJobExecution.getBatchStatus()+"<p>");
-			assertWithMessage("If the restarted job hasn't completed yet then try increasing the sleep time.", 
+			assertWithMessage(secondJobExecution, "If the restarted job hasn't completed yet then try increasing the sleep time.",
 					BatchStatus.COMPLETED, secondJobExecution.getBatchStatus());
 
 			Reporter.log("execution #2 JobExecution getExitStatus()="+secondJobExecution.getExitStatus()+"<p>");
-			assertWithMessage("If this fails with only \"GOOD.STEP\", the reason could be that step 1 didn't run the second time," + 
-					"though it should since it won't have completed successfully the first time.", 
+			assertWithMessage(secondJobExecution, "If this fails with only \"GOOD.STEP\", the reason could be that step 1 didn't run the second time," +
+					"though it should since it won't have completed successfully the first time.",
 					"GOOD.STEP.GOOD.STEP", secondJobExecution.getExitStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);

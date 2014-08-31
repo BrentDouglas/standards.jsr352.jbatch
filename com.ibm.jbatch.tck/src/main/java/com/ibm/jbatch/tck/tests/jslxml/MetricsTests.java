@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,12 +69,12 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsInApp
-	 * 
-	 * 
+	 *
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Ensure Metrics are available to Batch Artifacts during job execution
-	 * @test_Strategy: Batch Artifact reads a known number of items - test that those reads are reflected 
+	 * @test_Strategy: Batch Artifact reads a known number of items - test that those reads are reflected
 	 *                 in the read count and accessible at job execution time to the Batch Artifact
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -110,9 +110,9 @@ public class MetricsTests {
 					+ execution1.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()="
 					+ execution1.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
-			assertWithMessage("Testing metrics",
+			assertWithMessage(execution1, "Testing metrics",
 					MetricsStepListener.GOOD_EXIT_STATUS_READ,
 					execution1.getExitStatus());
 		} catch (Exception e) {
@@ -122,10 +122,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsSkipRead
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Skip Read Count
 	 * @test_Strategy: Force Batch Artifact to skip a known number of reads - test that those skips are reflected in the skip read count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -157,9 +157,9 @@ public class MetricsTests {
 					+ execution1.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()="
 					+ execution1.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
-			assertWithMessage("Testing execution #1",
+			assertWithMessage(execution1, "Testing execution #1",
 					MetricsStepListener.GOOD_EXIT_STATUS_READ,
 					execution1.getExitStatus());
 
@@ -177,7 +177,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Metric[] metrics = step.getMetrics();
@@ -187,6 +187,7 @@ public class MetricsTests {
 				if (metrics[i].getType().equals(Metric.MetricType.READ_SKIP_COUNT)) {
 					Reporter.log("AJM: in test, found metric: " + metrics[i].getType() + "<p>");
 					assertWithMessage(
+                            execution1,
 							"Testing the read skip count for execution #1", 4L,
 							metrics[i].getValue());
 				}
@@ -199,10 +200,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsSkipWrite
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Skip Write Count
 	 * @test_Strategy: Force Batch Artifact to skip a known number of writes - test that those skips are reflected in the skip write count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -234,7 +235,7 @@ public class MetricsTests {
 					+ execution1.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()="
 					+ execution1.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			List<StepExecution> stepExecutions = jobOp
@@ -251,7 +252,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Metric[] metrics = step.getMetrics();
@@ -261,6 +262,7 @@ public class MetricsTests {
 				if (metrics[i].getType().equals(Metric.MetricType.WRITE_SKIP_COUNT)) {
 					Reporter.log("AJM: in test, found metric: " + metrics[i].getType() + "<p>");
 					assertWithMessage(
+                            execution1,
 							"Testing the write skip count for execution #1", 3L,
 							metrics[i].getValue());
 				}
@@ -273,10 +275,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsSkipProcess
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Skip Process Count
 	 * @test_Strategy: Force Batch Artifact to skip a known number of processing - test that those skips are reflected in the skip process count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -307,9 +309,9 @@ public class MetricsTests {
 					+ execution1.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()="
 					+ execution1.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
-			assertWithMessage("Testing execution #1",
+			assertWithMessage(execution1, "Testing execution #1",
 					MetricsStepListener.GOOD_EXIT_STATUS_PROCESS,
 					execution1.getExitStatus());
 
@@ -327,7 +329,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Metric[] metrics = step.getMetrics();
@@ -337,6 +339,7 @@ public class MetricsTests {
 				if (metrics[i].getType().equals(Metric.MetricType.PROCESS_SKIP_COUNT)) {
 					Reporter.log("AJM: in test, found metric: " + metrics[i].getType() + "<p>");
 					assertWithMessage(
+                            execution1,
 							"Testing the read count for execution #1", 2L,
 							metrics[i].getValue());
 				}
@@ -348,10 +351,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testReadMetric
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Read Count
 	 * @test_Strategy: Batch Artifact reads a known number of items - test that those reads are reflected in the read count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -396,7 +399,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Metric[] metrics = step.getMetrics();
@@ -406,6 +409,7 @@ public class MetricsTests {
 				if (metrics[i].getType().equals(Metric.MetricType.READ_COUNT)) {
 					Reporter.log("AJM: in test, found metric: " + metrics[i].getType() + "<p>");
 					assertWithMessage(
+                            execution1,
 							"Testing the read count for execution #1", 9L,
 							metrics[i].getValue());
 				}
@@ -419,10 +423,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testWriteMetric
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Write Count
 	 * @test_Strategy: Batch Artifact writes a known number of items - test that those writes are reflected in the write count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -457,7 +461,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Metric[] metrics = step.getMetrics();
@@ -467,6 +471,7 @@ public class MetricsTests {
 				if (metrics[i].getType().equals(Metric.MetricType.WRITE_COUNT)) {
 					Reporter.log("AJM: in test, found metric: " + metrics[i].getType() + "<p>");
 					assertWithMessage(
+                            execution1,
 							"Testing the write count for execution #1", 9L,
 							metrics[i].getValue());
 				}
@@ -480,10 +485,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsFilterCount
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Filter Count
 	 * @test_Strategy: Batch Artifact filters a known number of items while processing - test that those filter actions are reflected in the filter count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -521,7 +526,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 			Metric[] metrics = step.getMetrics();
 
@@ -529,6 +534,7 @@ public class MetricsTests {
 			for (int i = 0; i < metrics.length; i++) {
 				if (metrics[i].getType().equals(Metric.MetricType.FILTER_COUNT)) {
 					assertWithMessage(
+                            execution1,
 							"Testing the filter count for execution #1", 1L,
 							metrics[i].getValue());
 				}
@@ -540,10 +546,10 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsCommitCount
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Commit Count
 	 * @test_Strategy: Batch Artifact read/process/writes a known number of items and all are committed - test that those commits are reflected in the commit count
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -580,7 +586,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 			Metric[] metrics = step.getMetrics();
 
@@ -588,6 +594,7 @@ public class MetricsTests {
 			for (int i = 0; i < metrics.length; i++) {
 				if (metrics[i].getType().equals(Metric.MetricType.COMMIT_COUNT)) {
 					assertWithMessage(
+                            execution1,
 							"Testing the commit count for execution #1", 4L,
 							metrics[i].getValue());
 				}
@@ -600,12 +607,12 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsStepTimestamps
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Commit Count
 	 * @test_Strategy: test case records a point in time and starts a job which contains a step. test that the step start time
-	 *                 occurs after the test case point in time. test that the step end time occurs after the step start time. 
+	 *                 occurs after the test case point in time. test that the step end time occurs after the step start time.
 	 *                 test that the step end time occurs after the test case point in time.
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -644,15 +651,15 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Reporter.log("AJM: testcase start time: " + ts + "<p>");
 			Reporter.log("AJM: step start time: " + step.getStartTime() + "<p>");
 			Reporter.log("AJM: step end time: " + step.getEndTime() + "<p>");
 
-			assertWithMessage("Start time of test occurs approximately before start time of step", roughlyOrdered(ts, step.getStartTime()));
-			assertWithMessage("Start time of step occurs approximately before end time of step", roughlyOrdered(step.getStartTime(), step.getEndTime()));
+			assertWithMessage(execution1, "Start time of test occurs approximately before start time of step", roughlyOrdered(ts, step.getStartTime()));
+			assertWithMessage(execution1, "Start time of step occurs approximately before end time of step", roughlyOrdered(step.getStartTime(), step.getEndTime()));
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -660,13 +667,13 @@ public class MetricsTests {
 
 	/*
 	 * @testName: testMetricsJobExecutionTimestamps
-	 * 
+	 *
 	 * @assertion: Section 7.1 Job Metrics - Commit Count
 	 * @test_Strategy: test starts a job. Test that the start time of the testcase occurs before the start time  of the job.
 	 *                 test that the job create time occurs before the job start time. test that the job end time occurs
 	 *                 after the job start time. test that the last status update time occurs after the job start time.
 	 *                 test that the job end time occurs after the testcase start time.
-	 * 
+	 *
 	 */
 	@Test
 	@org.junit.Test
@@ -693,7 +700,7 @@ public class MetricsTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()="
 					+ execution1.getBatchStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.COMPLETED,
+			assertWithMessage(execution1, "Testing execution #1", BatchStatus.COMPLETED,
 					execution1.getBatchStatus());
 
 			Reporter.log("AJM: testcase start time: " + ts + "<p>");
@@ -702,10 +709,10 @@ public class MetricsTests {
 			Reporter.log("AJM: job last updated time: " + execution1.getLastUpdatedTime() + "<p>");
 			Reporter.log("AJM: job end time: " + execution1.getEndTime() + "<p>");
 
-			assertWithMessage("Start time of test occurs approximately before create time of job", roughlyOrdered(ts, execution1.getCreateTime()));
-			assertWithMessage("Create time of job occurs approximately before start time of job", roughlyOrdered(execution1.getCreateTime(), execution1.getStartTime()));
-			assertWithMessage("Start time of job occurs approximately before end time of job", roughlyOrdered(execution1.getStartTime(), execution1.getEndTime()));
-			assertWithMessage("Start time of job occurs approximately before Last Updated time of job", roughlyOrdered(execution1.getStartTime(), execution1.getLastUpdatedTime()));
+			assertWithMessage(execution1, "Start time of test occurs approximately before create time of job", roughlyOrdered(ts, execution1.getCreateTime()));
+			assertWithMessage(execution1, "Create time of job occurs approximately before start time of job", roughlyOrdered(execution1.getCreateTime(), execution1.getStartTime()));
+			assertWithMessage(execution1, "Start time of job occurs approximately before end time of job", roughlyOrdered(execution1.getStartTime(), execution1.getEndTime()));
+			assertWithMessage(execution1, "Start time of job occurs approximately before Last Updated time of job", roughlyOrdered(execution1.getStartTime(), execution1.getLastUpdatedTime()));
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -717,32 +724,32 @@ public class MetricsTests {
 		Reporter.log(methodName + " failed<p>");
 		throw e;
 	}
-	
+
 	/*
 	 * We want to confirm that 'd1' is roughly before 'd2', and also to
 	 * allow for the fact that dates may be stored with a loss of precision.
-	 * 
+	 *
 	 * Let's assume then that we only have whole seconds precision (without
 	 * necessarily accounting for any fractional seconds).
-	 * 
-	 * So we can't simply perform d1 < d2, or even d1 <= d2 (the inclusion of 'equals' 
+	 *
+	 * So we can't simply perform d1 < d2, or even d1 <= d2 (the inclusion of 'equals'
 	 * corrects for a different problem, the problem of running so fast that
 	 * the times for d1 and d2 are the same even though d1 may still have
 	 * been executed first).
-	 * 
+	 *
 	 * The "worst" case (in terms of highest rounding error), then, is that 'd1' gets
-	 * rounded up while 'd2' gets rounded down, leaving the rounded 'd1' value a full 
+	 * rounded up while 'd2' gets rounded down, leaving the rounded 'd1' value a full
 	 * second higher than the rounded 'd2' value.
-	 * 
+	 *
 	 * Therefore we check that d2 minus d1, which before rounding should be >= 0, is
 	 * instead no less than -1000 (1 second).
 	 */
 	private static boolean roughlyOrdered(Date d1, Date d2) {
 		long time1 = d1.getTime();
 		long time2 = d2.getTime();
-		
+
 		long diff = time2 - time1;
-		
+
 		return diff >= -1000 ? true : false;
 	}
 

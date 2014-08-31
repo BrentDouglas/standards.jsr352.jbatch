@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,15 +53,15 @@ public class RetryListenerTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
 	/*
 	 * @testName: testRetryReadListener
-	 * 
+	 *
 	 * @assertion: Test will finish in FAILED status, with the onRetryReadException invoked.
-	 * 
+	 *
 	 * @test_Strategy: Test that the onRetryReadException listener is invoked when a retryable exception occurs on a read.
 	 */
 	@Test
@@ -88,8 +88,8 @@ public class RetryListenerTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()=" + jobExec.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()=" + jobExec.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
-			assertWithMessage("Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
 		} catch(Exception e) {
 			handleException(METHOD, e);
 		}
@@ -97,9 +97,9 @@ public class RetryListenerTests {
 
 	/*
 	 * @testName: testRetryProcessListener
-	 * 
+	 *
 	 * @assertion: Test will finish in FAILED status, with the onRetryProcessException invoked.
-	 * 
+	 *
 	 * @test_Strategy: Test that the onRetryProcessException listener is invoked when a retryable exception occurs on a process.
 	 */
 	@Test
@@ -126,8 +126,8 @@ public class RetryListenerTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()=" + jobExec.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()=" + jobExec.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
-			assertWithMessage("Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
 		} catch(Exception e) {
 			handleException(METHOD, e);
 		}
@@ -135,9 +135,9 @@ public class RetryListenerTests {
 
 	/*
 	 * @testName: testRetryWriteListener
-	 * 
+	 *
 	 * @assertion: Test will finish in FAILED status, with the onRetryWriteException invoked.
-	 * 
+	 *
 	 * @test_Strategy: Test that the onRetryWriteException listener is invoked when a retryable exception occurs on a write.
 	 */
 	@Test
@@ -165,8 +165,8 @@ public class RetryListenerTests {
 
 			Reporter.log("execution #1 JobExecution getBatchStatus()=" + jobExec.getBatchStatus() + "<p>");
 			Reporter.log("execution #1 JobExecution getExitStatus()=" + jobExec.getExitStatus() + "<p>");
-			assertWithMessage("Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
-			assertWithMessage("Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Testing execution #1", BatchStatus.FAILED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Testing execution #1", "Retry listener invoked", jobExec.getExitStatus());
 		} catch(Exception e) {
 			handleException(METHOD, e);
 		}

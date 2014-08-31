@@ -1,13 +1,13 @@
 /*
  * Copyright 2012 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
  */
 package com.ibm.jbatch.tck.tests.jslxml;
 
-import static com.ibm.jbatch.tck.utils.AssertionUtils.assertObjEquals;
+import static com.ibm.jbatch.tck.utils.AssertionUtils.assertWithMessage;
 
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -42,7 +42,7 @@ public class ExecuteTests {
 		String METHOD = "setup";
 
 		try {
-			jobOp = new JobOperatorBridge();  
+			jobOp = new JobOperatorBridge();
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
@@ -56,7 +56,7 @@ public class ExecuteTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
@@ -73,7 +73,7 @@ public class ExecuteTests {
 	 */
 	@Test
 	@org.junit.Test
-	public void testMyStepContextBatchlet() throws Exception { 
+	public void testMyStepContextBatchlet() throws Exception {
 
 		String METHOD = "testMyStepContextBatchlet";
 
@@ -81,14 +81,14 @@ public class ExecuteTests {
 
 			Reporter.log("Invoke startJobAndWaitForResult<p>");
 
-			JobExecution jobExec = jobOp.startJobAndWaitForResult("test_batchlet_stepCtx"); 
+			JobExecution jobExec = jobOp.startJobAndWaitForResult("test_batchlet_stepCtx");
 
 			Reporter.log("EXPECTED JobExecution getExitStatus()="+BatchletUsingStepContextImpl.GOOD_JOB_EXIT_STATUS+"<p>");
 			Reporter.log("ACTUAL JobExecution getExitStatus()="+jobExec.getExitStatus()+"<p>");
 			Reporter.log("EXPECTED JobExecution getBatchStatus()=COMPLETED<p>");
 			Reporter.log("ACTUAL JobExecution getBatchStatus()="+jobExec.getBatchStatus()+"<p>");
-			assertObjEquals(BatchletUsingStepContextImpl.GOOD_JOB_EXIT_STATUS, jobExec.getExitStatus());
-			assertObjEquals(BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, BatchletUsingStepContextImpl.GOOD_JOB_EXIT_STATUS, jobExec.getExitStatus());
+			assertWithMessage(jobExec, BatchStatus.COMPLETED, jobExec.getBatchStatus());
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}

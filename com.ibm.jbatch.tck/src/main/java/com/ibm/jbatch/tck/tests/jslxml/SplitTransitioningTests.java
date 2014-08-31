@@ -1,13 +1,13 @@
 /*
  * Copyright 2013 International Business Machines Corp.
- * 
+ *
  * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership. Licensed under the Apache License, 
+ * regarding copyright ownership. Licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,10 +42,10 @@ public class SplitTransitioningTests {
 	 * @testName: testSplitTransitionToStep
 	 * @assertion: Section 5.4 Split
 	 * @test_Strategy: 1. setup a job consisting of one split (w/ 2 flows) and one step
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. add step id from step context to job context exit status
 	 * 				   4. verify that the split indeed transitioned to the step
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -61,12 +61,12 @@ public class SplitTransitioningTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("split_transition_to_step", null);
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
-			assertWithMessage("Split transitioned to step", "step1", jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Split transitioned to step", "step1", jobExec.getExitStatus());
 
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
 		} catch (Exception e) {
-			handleException(METHOD, e); 
+			handleException(METHOD, e);
 		}
 	}
 
@@ -74,9 +74,9 @@ public class SplitTransitioningTests {
 	 * @testName: testSplitTransitionToStepOutOfScope
 	 * @assertion: Section 5.4 Split
 	 * @test_Strategy: 1. setup a job consisting of one split (w/ 2 flows) and one step
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. this job should fail because the split flow 'flow1' next to outside the split
-	 * 
+	 *
 	 *	<split id="split1">
 	 *	   <flow id="flow1" next="step1">
 	 *			<step id="flow1step1" next="flow1step2">
@@ -113,7 +113,7 @@ public class SplitTransitioningTests {
 
 		try {
 			Reporter.log("starting job");
-			
+
 			boolean seenException = false;
 			JobExecution jobExec = null;
 			try {
@@ -122,14 +122,14 @@ public class SplitTransitioningTests {
 				Reporter.log("Caught JobStartException:  " + e.getLocalizedMessage());
 				seenException = true;
 			}
-			
+
 			// If we caught an exception we'd expect that a JobExecution would not have been created,
-			// though we won't validate that it wasn't created.  
-			
+			// though we won't validate that it wasn't created.
+
 			// If we didn't catch an exception that we require that the implementation fail the job execution.
 			if (!seenException) {
 				Reporter.log("Didn't catch JobstartException, Job Batch Status = " + jobExec.getBatchStatus());
-				assertWithMessage("Job should have failed because of out of scope execution elements.", BatchStatus.FAILED, jobExec.getBatchStatus());
+				assertWithMessage(jobExec, "Job should have failed because of out of scope execution elements.", BatchStatus.FAILED, jobExec.getBatchStatus());
 			}
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -140,10 +140,10 @@ public class SplitTransitioningTests {
 	 * @testName: testSplitTransitionToDecision
 	 * @assertion: Section 5.4 Split
 	 * @test_Strategy: 1. setup a job consisting of one split (w/ 2 flows) and one decision
-	 * 				   2. start job 
+	 * 				   2. start job
 	 * 				   3. split will transition to decider which will change the exit status
 	 * 				   4. compare that the exit status set by the decider matches that of the job
-	 * 
+	 *
 	 * @throws JobStartException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -166,8 +166,8 @@ public class SplitTransitioningTests {
 			JobExecution jobExec = jobOp.startJobAndWaitForResult("split_transition_to_decision", null);
 			Reporter.log("Job Status = " + jobExec.getBatchStatus());
 
-			assertWithMessage("Job Exit Status is from decider", exitStatus, jobExec.getExitStatus());
-			assertWithMessage("Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
+			assertWithMessage(jobExec, "Job Exit Status is from decider", exitStatus, jobExec.getExitStatus());
+			assertWithMessage(jobExec, "Job completed", BatchStatus.COMPLETED, jobExec.getBatchStatus());
 			Reporter.log("job completed");
 		} catch (Exception e) {
 			handleException(METHOD, e);
@@ -182,7 +182,7 @@ public class SplitTransitioningTests {
 
 	/* cleanup */
 	public void  cleanup()
-	{		
+	{
 
 	}
 
@@ -195,12 +195,12 @@ public class SplitTransitioningTests {
 		} catch (Exception e) {
 			handleException(METHOD, e);
 		}
-	} 
+	}
 
 	@BeforeTest
 	@Before
 	public void beforeTest() throws ClassNotFoundException {
-		jobOp = new JobOperatorBridge(); 
+		jobOp = new JobOperatorBridge();
 	}
 
 	@AfterTest
