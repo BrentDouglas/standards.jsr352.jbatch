@@ -26,7 +26,9 @@
         <dependencySet>
             <includes>
                 <include>javax.inject:javax.inject</include>
+                <include>javax.enterprise:cdi-api</include>
                 <include>junit:junit</include>
+                <include>net.java.sigtest:sigtestdev</include>
                 <include>org.testng:testng</include>
                 <include>xmlunit:xmlunit</include>
             </includes>

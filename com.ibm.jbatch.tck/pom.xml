@@ -13,10 +13,6 @@
 	<name>com.ibm.jbatch.tck</name>
 	<url>http://maven.apache.org</url>
 
-    <properties>
-        <version.net.java.sigtest.sigtestdev>3.0-b12-v20140219</version.net.java.sigtest.sigtestdev>
-    </properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -86,6 +82,9 @@
                                           overwrite="true">
                                         <filterset>
                                             <filter token="project.version" value="${project.version}" />
+                                            <filter token="version.javax.enterprise.cdi-api" value="${version.javax.enterprise.cdi-api}" />
+                                            <filter token="version.javax.inject.javax.inject" value="${version.javax.inject.javax.inject}" />
+                                            <filter token="version.net.java.sigtest.sigtestdev" value="${version.net.java.sigtest.sigtestdev}" />
                                             <filter token="version.org.testng.testng" value="${version.org.testng.testng}" />
                                         </filterset>
                                     </copy>
@@ -172,6 +171,66 @@
                                             <pathelement location="${sigtest.java8.home}/jre/lib/rt.jar"/>
                                         </classpath>
                                     </setup>
+                                </target>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>run-sigtest-java6</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>none</phase>
+                            <configuration>
+                                <target>
+                                    <taskdef name="test" classname="com.sun.tdk.signaturetest.ant.ATest" classpathref="maven.plugin.classpath"/>
+                                    <test failonerror="true" filename="${project.basedir}/sigtest/jsr352-api-sigtest-java6.sig"
+                                          package="javax.batch">
+                                        <classpath refid="maven.compile.classpath"/>
+                                        <classpath refid="maven.plugin.classpath"/>
+                                        <classpath>
+                                            <pathelement location="${sigtest.java6.home}/jre/lib/rt.jar"/>
+                                        </classpath>
+                                    </test>
+                                </target>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>run-sigtest-java7</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>none</phase>
+                            <configuration>
+                                <target>
+                                    <taskdef name="test" classname="com.sun.tdk.signaturetest.ant.ATest" classpathref="maven.plugin.classpath"/>
+                                    <test failonerror="true" filename="${project.basedir}/sigtest/jsr352-api-sigtest-java7.sig"
+                                          package="javax.batch">
+                                        <classpath refid="maven.compile.classpath"/>
+                                        <classpath refid="maven.plugin.classpath"/>
+                                        <classpath>
+                                            <pathelement location="${sigtest.java7.home}/jre/lib/rt.jar"/>
+                                        </classpath>
+                                    </test>
+                                </target>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>run-sigtest-java8</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>none</phase>
+                            <configuration>
+                                <target>
+                                    <taskdef name="test" classname="com.sun.tdk.signaturetest.ant.ATest" classpathref="maven.plugin.classpath"/>
+                                    <test failonerror="true" filename="${project.basedir}/sigtest/jsr352-api-sigtest-java8.sig"
+                                           package="javax.batch">
+                                        <classpath refid="maven.compile.classpath"/>
+                                        <classpath refid="maven.plugin.classpath"/>
+                                        <classpath>
+                                            <pathelement location="${sigtest.java8.home}/jre/lib/rt.jar"/>
+                                        </classpath>
+                                    </test>
                                 </target>
                             </configuration>
                         </execution>
@@ -268,6 +327,10 @@
                                 <id>generate-sigtest-java6</id>
                                 <phase>generate-resources</phase>
                             </execution>
+                            <execution>
+                                <id>run-sigtest-java6</id>
+                                <phase>test</phase>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
@@ -289,6 +352,10 @@
                                 <id>generate-sigtest-java7</id>
                                 <phase>generate-resources</phase>
                             </execution>
+                            <execution>
+                                <id>run-sigtest-java7</id>
+                                <phase>test</phase>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
@@ -309,6 +376,10 @@
                             <execution>
                                 <id>generate-sigtest-java8</id>
                                 <phase>generate-resources</phase>
+                            </execution>
+                            <execution>
+                                <id>run-sigtest-java8</id>
+                                <phase>test</phase>
                             </execution>
                         </executions>
                     </plugin>

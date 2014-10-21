@@ -39,10 +39,81 @@
 		 <loadproperties srcFile="jsr352-tck.properties"/>
 	</target>
 
+    <target name="sigtest" depends="init" description="Run SigTest">
+        <condition property="javax.batch.jar.available">
+            <and>
+                <isset property="javax.batch.jar"/>
+                <available classname="javax.batch.operations.JobOperator" classpath="${javax.batch.jar}"/>
+            </and>
+        </condition>
+        <fail if="javax.batch.jar.available" message="To run SigTest the property 'javax.batch.jar' must be set in 'jsr352-tck.properties' to point to your JSR-352 api jar."/>
+
+        <path id="sigtest.dependencies">
+            <pathelement location="${javax.batch.jar}"/>
+            <pathelement location="./lib/javax.inject-@version.javax.inject.javax.inject@"/>
+            <pathelement location="./lib/cdi-api-@version.javax.enterprise.cdi-api@"/>
+            <pathelement location="./lib/sigtestdev-@version.net.java.sigtest.sigtestdev@"/>
+        </path>
+
+        <!-- Define the signature-test task. -->
+        <taskdef name="test-signature" classname="com.sun.tdk.signaturetest.ant.ATest" classpath="./lib/sigtestdev-@version.net.java.sigtest.sigtestdev@"/>
+    </target>
+
 	<target name="clean">
 	    <delete dir="${build}"/>
 		<delete dir="${results}"/>
 	</target>
+
+    <target name="sigtest6" depends="sigtest" if="can.run.sigtest.6">
+        <condition property="can.run.sigtest6">
+            <and>
+                <isset property="sigtest.java6.home"/>
+                <available classname="java.net.CookieStore" classpath="${sigtest.java6.home}/jre/lib/rt.jar" />
+            </and>
+        </condition>
+        <fail if="can.run.sigtest6" message="To run SigTest against JDK6 the property 'sigtest.java6.home' must be set in 'jsr352-tck.properties' to point to the root of a JDK6 install."/>
+        <test-signature failonerror="true" filename="./artifacts/jsr352-api-sigtest-java6.sig">
+            <package name="javax.batch"/>
+            <classpath refId="sigtest.dependencies"/>
+            <classpath>
+                <pathelement location="${sigtest.java6.home}/jre/lib/rt.jar"/>
+            </classpath>
+        </test-signature>
+    </target>
+
+    <target name="sigtest7" depends="sigtest" if="can.run.sigtest.7">
+        <condition property="can.run.sigtest7">
+            <and>
+                <isset property="sigtest.java7.home"/>
+                <available classname="java.net.SocketOption" classpath="${sigtest.java7.home}/jre/lib/rt.jar" />
+            </and>
+        </condition>
+        <fail if="can.run.sigtest7" message="To run SigTest against JDK7 the property 'sigtest.java7.home' must be set in 'jsr352-tck.properties' to point to the root of a JDK7 install."/>
+        <test-signature failonerror="true" filename="./artifacts/jsr352-api-sigtest-java7.sig">
+            <package name="javax.batch"/>
+            <classpath refId="sigtest.dependencies"/>
+            <classpath>
+                <pathelement location="${sigtest.java7.home}/jre/lib/rt.jar"/>
+            </classpath>
+        </test-signature>
+    </target>
+
+    <target name="sigtest8" depends="sigtest" if="can.run.sigtest.8">
+        <condition property="can.run.sigtest8">
+            <and>
+                <isset property="sigtest.java8.home"/>
+                <available classname="java.time.Instant" classpath="${sigtest.java8.home}/jre/lib/rt.jar" />
+            </and>
+        </condition>
+        <fail if="can.run.sigtest8" message="To run SigTest against JDK8 the property 'sigtest.java8.home' must be set in 'jsr352-tck.properties' to point to the root of a JDK8 install."/>
+        <test-signature failonerror="true" filename="./artifacts/jsr352-api-sigtest-java8.sig">
+            <package name="javax.batch"/>
+            <classpath refId="sigtest.dependencies"/>
+            <classpath>
+                <pathelement location="${sigtest.java8.home}/jre/lib/rt.jar"/>
+            </classpath>
+        </test-signature>
+    </target>
 
 	<target name="run" depends="init" description="Runs the JSR352 TCK suite" >
         <path id="jsr352.tck.classpath">

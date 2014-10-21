@@ -126,6 +126,7 @@
 
         <version.javax.enterprise.cdi-api>1.1-20121030</version.javax.enterprise.cdi-api>
         <version.javax.inject.javax.inject>1</version.javax.inject.javax.inject>
+        <version.net.java.sigtest.sigtestdev>3.0-b12-v20140219</version.net.java.sigtest.sigtestdev>
         <version.org.testng.testng>6.8</version.org.testng.testng>
 
         <version.com.mycila.maven-license-plugin.maven-license-plugin>1.10.b1</version.com.mycila.maven-license-plugin.maven-license-plugin>
@@ -228,6 +229,11 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.10</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.sigtest</groupId>
+                <artifactId>sigtestdev</artifactId>
+                <version>${version.net.java.sigtest.sigtestdev}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>

@@ -14,48 +14,56 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck</artifactId>
+            <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.jbatch</groupId>
+            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
+            <classifier>javadoc</classifier>
         </dependency>
         <dependency>
             <groupId>javax.batch</groupId>
             <artifactId>javax.batch-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck</artifactId>
-            <classifier>javadoc</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.jbatch</groupId>
-            <artifactId>com.ibm.jbatch.tck.spi</artifactId>
-            <classifier>javadoc</classifier>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.java.sigtest</groupId>
+            <artifactId>sigtestdev</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
         </dependency>
         <dependency>
             <groupId>xmlunit</groupId>
